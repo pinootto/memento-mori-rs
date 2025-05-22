@@ -1,4 +1,6 @@
-use clap::Parser;
+use std::fmt::Display;
+
+use clap::{Parser, ValueEnum};
 use jiff::civil::Date;
 use jiff::{SpanTotal, Timestamp, ToSpan, Unit};
 
@@ -10,8 +12,25 @@ struct Cli {
     #[arg(default_value_t = 90)]
     #[arg(value_parser = clap::value_parser!(u8).range(0..=150))]
     death_age: u8,
+    #[arg(short, long)]
+    #[arg(default_value_t = TimeUnit::Month)]
+    time_unit: TimeUnit,
 }
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+enum TimeUnit {
+    Week,
+    Month,
+}
+
+impl Display for TimeUnit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Week => write!(f, "week"),
+            Self::Month => write!(f, "month"),
+        }
+    }
+}
 pub fn launch() {
     let cli = Cli::parse();
 
