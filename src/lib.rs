@@ -33,6 +33,7 @@ pub fn launch() {
 
     let mut week_counter = 0;
     for year in 0..cli.death_age {
+        print!("{}  ", year);
         for week in 0..52 {
             if week_counter < current_week {
                 print!("#");
