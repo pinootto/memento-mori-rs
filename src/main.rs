@@ -1,3 +1,5 @@
+use memento_mori_rs::launch;
+
 fn main() {
-    println!("Hello, world!");
+    launch();
 }
