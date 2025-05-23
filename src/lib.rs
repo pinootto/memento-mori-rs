@@ -61,43 +61,6 @@ pub fn launch() {
         TimeUnit::Week => print_by_week(&cli, &current_elapsed, &life_elapsed),
         TimeUnit::Month => print_by_month(&cli, &current_elapsed, &life_elapsed),
     }
-
-    // let current_week = current_elapsed
-    //     .total(SpanTotal::from(Unit::Week).days_are_24_hours())
-    //     .unwrap();
-    //
-    // let life_weeks = life_elapsed
-    //     .total(SpanTotal::from(Unit::Week).days_are_24_hours())
-    //     .unwrap();
-    //
-    // println!(
-    //     "current week in your life: {} out of {} weeks ({} years)",
-    //     current_week as u16, life_weeks as u16, cli.death_age
-    // );
-    //
-    // println!(
-    //     "{}% of your life is passed",
-    //     (current_week / life_weeks * 100.0) as u8
-    // );
-    //
-    // let mut week_counter = 0.0;
-    // let week_scaler = WEEKS_IN_A_YEAR / 52.0;
-    // // println!("week_scaler = {}", week_scaler);
-    // println!();
-    // println!("year weeks");
-    // for year in 0..cli.death_age {
-    //     print!("{:0>3}  ", year);
-    //     for _week in 0..52 {
-    //         if week_counter < current_week {
-    //             print!("#");
-    //         } else {
-    //             print!(".");
-    //         }
-    //         week_counter += week_scaler;
-    //     }
-    //     println!();
-    // }
-    // println!("{:0>3}  ", cli.death_age);
 }
 
 fn print_by_week(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
