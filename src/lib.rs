@@ -41,7 +41,10 @@ pub fn launch() {
     // println!("{:#?}", cli);
 
     let death_date = cli.birthday + (cli.death_age as i32).years();
-    println!("your death day: {death_date}");
+    println!(
+        "if you live {} years, your death day will be {}",
+        cli.death_age, death_date
+    );
 
     let birthday_timestamp = cli.birthday.in_tz("America/New_York").unwrap().timestamp();
 
@@ -54,7 +57,10 @@ pub fn launch() {
 
     let life_elapsed = death_timestamp - birthday_timestamp;
 
-    print_by_week(&cli, &current_elapsed, &life_elapsed);
+    match cli.time_unit {
+        TimeUnit::Week => print_by_week(&cli, &current_elapsed, &life_elapsed),
+        TimeUnit::Month => print_by_month(&cli, &current_elapsed, &life_elapsed),
+    }
 
     // let current_week = current_elapsed
     //     .total(SpanTotal::from(Unit::Week).days_are_24_hours())
@@ -104,7 +110,7 @@ fn print_by_week(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
         .unwrap();
 
     println!(
-        "current week in your life: {} out of {} weeks ({} years)",
+        "already passed weeks in your life: {} out of {} weeks ({} years)",
         current_week as u16, life_weeks as u16, cli.death_age
     );
 
@@ -127,6 +133,39 @@ fn print_by_week(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
                 print!(".");
             }
             week_counter += week_scaler;
+        }
+        println!();
+    }
+    println!("{:0>3}  ", cli.death_age);
+}
+
+fn print_by_month(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
+    let current_month = current_elapsed.total((Unit::Month, cli.birthday)).unwrap();
+
+    let life_months = life_elapsed.total((Unit::Month, cli.birthday)).unwrap();
+
+    println!(
+        "already passed months in your life: {} out of {} months ({} years)",
+        current_month as u16, life_months as u16, cli.death_age
+    );
+
+    println!(
+        "{}% of your life is passed",
+        (current_month / life_months * 100.0) as u8
+    );
+
+    let mut month_counter = 0.0;
+    println!();
+    println!("year months");
+    for year in 0..cli.death_age {
+        print!("{:0>3}  ", year);
+        for _month in 0..12 {
+            if month_counter < current_month {
+                print!("#");
+            } else {
+                print!(".");
+            }
+            month_counter += 1.0;
         }
         println!();
     }
