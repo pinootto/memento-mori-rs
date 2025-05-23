@@ -64,6 +64,11 @@ pub fn launch() {
         current_week as u16, life_weeks as u16, cli.death_age
     );
 
+    println!(
+        "{}% of your life is passed",
+        (current_week / life_weeks * 100.0) as u8
+    );
+
     let mut week_counter = 0.0;
     let week_scaler = WEEKS_IN_A_YEAR / 52.0;
     // println!("week_scaler = {}", week_scaler);
