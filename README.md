@@ -16,3 +16,18 @@ Options:
   -V, --version                Print version
 ```
 
+## Build
+```
+$ cargo build --release
+```
+
+## Run
+```
+$ ./target/release/memento-mori-rs -b <birthday in yyyy-MM-dd>
+```
+
+See all the options in the help:
+```
+$ ./target/release/memento-mori-rs --help
+```
+
