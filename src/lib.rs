@@ -39,6 +39,9 @@ pub fn launch() {
     let cli = Cli::parse();
 
     // println!("{:#?}", cli);
+    println!("------------");
+    println!("memento mori - remember that you will die");
+    println!();
 
     let death_date = cli.birthday + (cli.death_age as i32).years();
     println!(
