@@ -1,6 +1,7 @@
 # memento-mori-rs
 
 Memento mori means "remember that you must die" in the language of Latin. 
+
 It serves to remind us of our own mortality, of the inevitable transformation of life into death.
 
 ## Usage
