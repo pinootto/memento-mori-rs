@@ -38,15 +38,20 @@ const WEEKS_IN_A_YEAR: f64 = 52.18; // roughly adjusted for leap years
 pub fn launch() {
     let cli = Cli::parse();
 
+    let mut output = String::new();
+
     // println!("{:#?}", cli);
-    println!("------------");
-    println!("memento mori - remember that you will die");
-    println!();
+    output.push_str("------------\n");
+    output.push_str("memento mori - remember that you will die\n");
+    output.push('\n');
 
     let death_date = cli.birthday + (cli.death_age as i32).years();
-    println!(
-        "if you live {} years, your death day will be {}",
-        cli.death_age, death_date
+    output.push_str(
+        format!(
+            "if you live {} years, your death day will be {}\n",
+            cli.death_age, death_date
+        )
+        .as_str(),
     );
 
     let birthday_timestamp = cli.birthday.in_tz("America/New_York").unwrap().timestamp();
@@ -61,12 +66,21 @@ pub fn launch() {
     let life_elapsed = death_timestamp - birthday_timestamp;
 
     match cli.time_unit {
-        TimeUnit::Week => print_by_week(&cli, &current_elapsed, &life_elapsed),
-        TimeUnit::Month => print_by_month(&cli, &current_elapsed, &life_elapsed),
-    }
+        TimeUnit::Week => build_output_by_week(&cli, &current_elapsed, &life_elapsed, &mut output),
+        TimeUnit::Month => {
+            build_output_by_month(&cli, &current_elapsed, &life_elapsed, &mut output)
+        }
+    };
+
+    println!("{}", output);
 }
 
-fn print_by_week(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
+fn build_output_by_week(
+    cli: &Cli,
+    current_elapsed: &Span,
+    life_elapsed: &Span,
+    output: &mut String,
+) {
     let current_week = current_elapsed
         .total(SpanTotal::from(Unit::Week).days_are_24_hours())
         .unwrap();
@@ -75,65 +89,84 @@ fn print_by_week(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
         .total(SpanTotal::from(Unit::Week).days_are_24_hours())
         .unwrap();
 
-    println!(
-        "already passed weeks in your life: {} out of {} weeks ({} years)",
-        current_week as u16, life_weeks as u16, cli.death_age
+    output.push_str(
+        format!(
+            "already passed {} weeks in your life, out of {} weeks ({} years)\n",
+            current_week as u16, life_weeks as u16, cli.death_age
+        )
+        .as_str(),
     );
 
-    println!(
-        "{}% of your life is passed",
-        (current_week / life_weeks * 100.0) as u8
+    output.push_str(
+        format!(
+            "{}% of your life is passed\n
+            don't waste your remaining time\n",
+            (current_week / life_weeks * 100.0) as u8
+        )
+        .as_str(),
     );
 
     let mut week_counter = 0.0;
     let week_scaler = WEEKS_IN_A_YEAR / 52.0;
     // println!("week_scaler = {}", week_scaler);
-    println!();
-    println!("year weeks");
+    output.push('\n');
+    output.push_str("year weeks\n");
     for year in 0..cli.death_age {
-        print!("{:0>3}  ", year);
+        output.push_str(format!("{:0>3}  ", year).as_str());
         for _week in 0..52 {
             if week_counter < current_week {
-                print!("#");
+                output.push('#');
             } else {
-                print!(".");
+                output.push('.');
             }
             week_counter += week_scaler;
         }
-        println!();
+        output.push('\n');
     }
-    println!("{:0>3}  ", cli.death_age);
+    output.push_str(format!("{:0>3}  ", cli.death_age).as_str());
 }
 
-fn print_by_month(cli: &Cli, current_elapsed: &Span, life_elapsed: &Span) {
+fn build_output_by_month(
+    cli: &Cli,
+    current_elapsed: &Span,
+    life_elapsed: &Span,
+    output: &mut String,
+) {
     let current_month = current_elapsed.total((Unit::Month, cli.birthday)).unwrap();
 
     let life_months = life_elapsed.total((Unit::Month, cli.birthday)).unwrap();
 
-    println!(
-        "already passed months in your life: {} out of {} months ({} years)",
-        current_month as u16, life_months as u16, cli.death_age
+    output.push_str(
+        format!(
+            "already passed {} months in your life, out of {} months ({} years)\n",
+            current_month as u16, life_months as u16, cli.death_age
+        )
+        .as_str(),
     );
 
-    println!(
-        "{}% of your life is passed",
-        (current_month / life_months * 100.0) as u8
+    output.push_str(
+        format!(
+            "{}% of your life is passed\n
+            don't waste your remaining time\n",
+            (current_month / life_months * 100.0) as u8
+        )
+        .as_str(),
     );
 
     let mut month_counter = 0.0;
-    println!();
-    println!("year months");
+    output.push('\n');
+    output.push_str("year months\n");
     for year in 0..cli.death_age {
-        print!("{:0>3}  ", year);
+        output.push_str(format!("{:0>3}  ", year).as_str());
         for _month in 0..12 {
             if month_counter < current_month {
-                print!("#");
+                output.push('#');
             } else {
-                print!(".");
+                output.push('.');
             }
             month_counter += 1.0;
         }
-        println!();
+        output.push('\n');
     }
-    println!("{:0>3}  ", cli.death_age);
+    output.push_str(format!("{:0>3}  ", cli.death_age).as_str());
 }
