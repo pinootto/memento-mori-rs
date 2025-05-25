@@ -6,7 +6,7 @@ It serves to remind us of our own mortality, of the inevitable transformation of
 
 ## Usage
 ```
-Usage: memento-mori-rs [OPTIONS] --birthday <BIRTHDAY>
+Usage: memento-mori-cli [OPTIONS] --birthday <BIRTHDAY>
 
 Options:
   -b, --birthday <BIRTHDAY>
@@ -23,11 +23,11 @@ $ cargo build --release
 
 ## Run
 ```
-$ ./target/release/memento-mori-rs -b <birthday in yyyy-MM-dd>
+$ ./target/release/memento-mori-cli -b <birthday in yyyy-MM-dd>
 ```
 
 See all the options in the help:
 ```
-$ ./target/release/memento-mori-rs --help
+$ ./target/release/memento-mori-cli --help
 ```
 
