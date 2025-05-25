@@ -37,13 +37,11 @@ const WEEKS_IN_A_YEAR: f64 = 52.18; // roughly adjusted for leap years
 
 pub fn launch() {
     let cli = Cli::parse();
+    // println!("{:#?}", cli);
 
     let mut output = String::new();
 
-    // println!("{:#?}", cli);
-    output.push_str("------------\n");
-    output.push_str("memento mori - remember that you will die\n");
-    output.push('\n');
+    build_intro(&mut output);
 
     let death_date = cli.birthday + (cli.death_age as i32).years();
     output.push_str(
@@ -169,4 +167,10 @@ fn build_output_by_month(
         output.push('\n');
     }
     output.push_str(format!("{:0>3}  ", cli.death_age).as_str());
+}
+
+fn build_intro(output: &mut String) {
+    output.push_str("------------\n");
+    output.push_str("memento mori - remember that you will die\n");
+    output.push('\n');
 }
