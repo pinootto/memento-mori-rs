@@ -10,8 +10,8 @@ use tokio::net::TcpListener;
 #[derive(Debug, Deserialize)]
 struct QueryParams {
     birthday: Date,
-    death_age: u8,
-    time_unit: TimeUnit,
+    death_age: Option<u8>,
+    time_unit: Option<TimeUnit>,
 }
 
 #[tokio::main]
@@ -34,6 +34,8 @@ async fn home() -> &'static str {
 async fn show_by_week(Query(params): Query<QueryParams>) -> impl IntoResponse {
     format!(
         "{} {} {}",
-        params.birthday, params.death_age, params.time_unit
+        params.birthday,
+        params.death_age.unwrap_or(90),
+        params.time_unit.unwrap_or(TimeUnit::Month)
     )
 }
