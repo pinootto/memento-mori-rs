@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.38", features = ["derive"] }
-jiff = "0.2.14"
+jiff = { version = "0.2.14", features = ["serde"] }
 tokio = { version = "1.45.1", features = ["full"] }
 tracing = "0.1.41"
 axum = "0.8.4"

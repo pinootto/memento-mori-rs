@@ -3,6 +3,7 @@ use std::fmt::Display;
 use clap::{Parser, ValueEnum};
 use jiff::civil::Date;
 use jiff::{Span, SpanTotal, Timestamp, ToSpan, Unit};
+use serde::Deserialize;
 
 #[derive(Debug, Parser)]
 #[command(version, about, long_about = None)]
@@ -18,8 +19,8 @@ struct Cli {
     time_unit: TimeUnit,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
-enum TimeUnit {
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum, Deserialize)]
+pub enum TimeUnit {
     Week,
     Month,
 }
