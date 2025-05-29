@@ -4,5 +4,6 @@ use memento_mori_rs::Cli;
 
 fn main() {
     let cli = Cli::parse();
-    launch(cli);
+    let output = launch(cli);
+    println!("{}", output);
 }

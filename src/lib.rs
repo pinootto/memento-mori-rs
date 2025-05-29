@@ -49,7 +49,6 @@ const WEEKS_IN_A_YEAR: f64 = 52.18; // roughly adjusted for leap years
 pub fn launch(cli: Cli) -> String {
     // let cli = Cli::parse();
     // println!("{:#?}", cli);
-
     let mut output = String::new();
 
     build_intro(&mut output);
@@ -81,7 +80,8 @@ pub fn launch(cli: Cli) -> String {
         }
     };
 
-    println!("{}", output);
+    // println!("{}", output);
+    output
 }
 
 fn build_output_by_week(
