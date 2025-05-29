@@ -7,7 +7,7 @@ use serde::Deserialize;
 
 #[derive(Debug, Parser)]
 #[command(version, about, long_about = None)]
-struct Cli {
+pub struct Cli {
     #[arg(short, long)]
     birthday: Date,
     #[arg(short, long)]
@@ -17,6 +17,16 @@ struct Cli {
     #[arg(short, long)]
     #[arg(default_value_t = TimeUnit::Month)]
     time_unit: TimeUnit,
+}
+
+impl Cli {
+    pub fn new(birthday: Date, death_age: u8, time_unit: TimeUnit) -> Self {
+        Cli {
+            birthday,
+            death_age,
+            time_unit,
+        }
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum, Deserialize)]
@@ -36,8 +46,8 @@ impl Display for TimeUnit {
 
 const WEEKS_IN_A_YEAR: f64 = 52.18; // roughly adjusted for leap years
 
-pub fn launch() {
-    let cli = Cli::parse();
+pub fn launch(cli: Cli) -> String {
+    // let cli = Cli::parse();
     // println!("{:#?}", cli);
 
     let mut output = String::new();

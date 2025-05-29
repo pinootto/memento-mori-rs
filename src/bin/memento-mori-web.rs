@@ -3,7 +3,7 @@ use axum::response::IntoResponse;
 use axum::routing::get;
 use axum::Router;
 use jiff::civil::Date;
-use memento_mori_rs::TimeUnit;
+use memento_mori_rs::{Cli, TimeUnit};
 use serde::Deserialize;
 use tokio::net::TcpListener;
 
@@ -20,7 +20,7 @@ async fn main() {
 
     let router = Router::new()
         .route("/", get(home))
-        .route("/by_week", get(show_by_week));
+        .route("/calendar", get(show_calendar));
 
     let listener = TcpListener::bind("0.0.0.0:4001").await.unwrap();
 
@@ -31,11 +31,9 @@ async fn home() -> &'static str {
     "memento mori\n"
 }
 
-async fn show_by_week(Query(params): Query<QueryParams>) -> impl IntoResponse {
-    format!(
-        "{} {} {}",
-        params.birthday,
-        params.death_age.unwrap_or(90),
-        params.time_unit.unwrap_or(TimeUnit::Month)
-    )
+async fn show_calendar(Query(params): Query<QueryParams>) -> impl IntoResponse {
+    let death_age = params.death_age.unwrap_or(90);
+    let time_unit = params.time_unit.unwrap_or(TimeUnit::Month);
+    println!("{} {} {}", params.birthday, death_age, time_unit);
+    let cli = Cli::new(params.birthday, death_age, time_unit);
 }
