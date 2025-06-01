@@ -3,7 +3,7 @@ use axum::response::IntoResponse;
 use axum::routing::get;
 use axum::Router;
 use jiff::civil::Date;
-use memento_mori_rs::{launch, Cli, TimeUnit};
+use memento_mori_rs::{launch, Args, TimeUnit};
 use serde::Deserialize;
 use tokio::net::TcpListener;
 
@@ -35,7 +35,7 @@ async fn show_calendar(Query(params): Query<QueryParams>) -> impl IntoResponse {
     let death_age = params.death_age.unwrap_or(90);
     let time_unit = params.time_unit.unwrap_or(TimeUnit::Month);
     println!("{} {} {}", params.birthday, death_age, time_unit);
-    let cli = Cli::new(params.birthday, death_age, time_unit);
+    let cli = Args::new(params.birthday, death_age, time_unit);
     let output = launch(cli);
     output
 }

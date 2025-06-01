@@ -1,9 +1,9 @@
 use clap::Parser;
 use memento_mori_rs::launch;
-use memento_mori_rs::Cli;
+use memento_mori_rs::Args;
 
 fn main() {
-    let cli = Cli::parse();
-    let output = launch(cli);
+    let args = Args::parse();
+    let output = launch(args);
     println!("{}", output);
 }
