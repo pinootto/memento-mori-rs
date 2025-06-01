@@ -46,7 +46,7 @@ impl Display for TimeUnit {
 
 const WEEKS_IN_A_YEAR: f64 = 52.18; // roughly adjusted for leap years
 
-pub fn launch(args: Args) -> String {
+pub fn build_calendar(args: Args) -> String {
     // let cli = Cli::parse();
     // println!("{:#?}", cli);
     let mut output = String::new();
