@@ -25,7 +25,7 @@ async fn main() {
         .route("/", get(home))
         .route("/calendar", get(show_calendar));
 
-    let listener = TcpListener::bind("0.0.0.0:4001").await.unwrap();
+    let listener = TcpListener::bind("0.0.0.0:0").await.unwrap();
     info!("listening on {}", listener.local_addr().unwrap());
 
     axum::serve(listener, router).await.unwrap();
