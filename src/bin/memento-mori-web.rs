@@ -6,6 +6,8 @@ use jiff::civil::Date;
 use memento_mori_rs::{build_calendar, Args, TimeUnit};
 use serde::Deserialize;
 use tokio::net::TcpListener;
+use tracing::{info, Level};
+use tracing_subscriber::{fmt, prelude::*};
 
 #[derive(Debug, Deserialize)]
 struct QueryParams {
@@ -16,14 +18,15 @@ struct QueryParams {
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::fmt::init();
+    // tracing_subscriber::fmt::init();
+    tracing_subscriber::registry().with(fmt::layer()).init();
 
     let router = Router::new()
         .route("/", get(home))
         .route("/calendar", get(show_calendar));
 
     let listener = TcpListener::bind("0.0.0.0:4001").await.unwrap();
-    tracing::info!("listening on {}", listener.local_addr().unwrap());
+    info!("listening on {}", listener.local_addr().unwrap());
 
     axum::serve(listener, router).await.unwrap();
 }
