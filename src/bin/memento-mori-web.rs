@@ -18,8 +18,10 @@ struct QueryParams {
 
 #[tokio::main]
 async fn main() {
-    // tracing_subscriber::fmt::init();
-    tracing_subscriber::registry().with(fmt::layer()).init();
+    // set log level with env variable RUST_LOG
+    tracing_subscriber::fmt::init();
+    // print all log levels
+    // tracing_subscriber::registry().with(fmt::layer()).init();
 
     let router = Router::new()
         .route("/", get(home))
