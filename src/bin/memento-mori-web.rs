@@ -2,12 +2,25 @@ use axum::extract::Query;
 use axum::response::IntoResponse;
 use axum::routing::get;
 use axum::Router;
+use clap::Parser;
 use jiff::civil::Date;
 use memento_mori_rs::{build_calendar, Args, TimeUnit};
 use serde::Deserialize;
 use tokio::net::TcpListener;
 use tracing::{info, Level};
-use tracing_subscriber::{fmt, prelude::*};
+use tracing_subscriber::{
+    fmt::{self, format},
+    prelude::*,
+};
+
+#[derive(Debug, Parser)]
+#[command(version, about, long_about = None)]
+pub struct WebArgs {
+    #[arg(short, long)]
+    #[arg(default_value_t = 4001)]
+    #[arg(value_parser = clap::value_parser!(u16).range(0..=65535))]
+    port: u16,
+}
 
 #[derive(Debug, Deserialize)]
 struct QueryParams {
@@ -23,11 +36,14 @@ async fn main() {
     // print all log levels
     // tracing_subscriber::registry().with(fmt::layer()).init();
 
+    let web_args = WebArgs::parse();
+
     let router = Router::new()
         .route("/", get(home))
         .route("/calendar", get(show_calendar));
 
-    let listener = TcpListener::bind("0.0.0.0:0").await.unwrap();
+    let address_port = format!("0.0.0.0:{}", web_args.port);
+    let listener = TcpListener::bind(address_port).await.unwrap();
     info!("listening on {}", listener.local_addr().unwrap());
 
     axum::serve(listener, router).await.unwrap();
