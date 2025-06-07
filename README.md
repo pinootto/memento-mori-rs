@@ -60,5 +60,5 @@ curl "http://localhost:4001/calendar?birthday=1985-07-05&death_age=80&time_unit=
 
 ### Demo
 ```
-<https://gioyingtec.com/memento-mori/calendar?birthday=1975-07-02&death_age=70&time_unit=Week>
+[Link to demo](https://gioyingtec.com/memento-mori/calendar?birthday=1975-07-02&death_age=70&time_unit=Week)
 ```
