@@ -54,6 +54,11 @@ RUST_LOG=info ./target/release/memento-mori-web
 test in localhost:
 ```
 curl "http://localhost:4001/calendar?birthday=1985-07-05"
-curl "http://localhost:4001/calendar?birthday=1985-07-05&death-age=80&time-unit=Week"
-curl "http://localhost:4001/calendar?birthday=1985-07-05&death-age=80&time-unit=Month"
+curl "http://localhost:4001/calendar?birthday=1985-07-05&death_age=80&time_unit=Week"
+curl "http://localhost:4001/calendar?birthday=1985-07-05&death_age=80&time_unit=Month"
+```
+
+### Demo
+```
+https://gioyingtec.com/memento-mori/calendar?birthday=1975-07-02&death_age=70&time_unit=Week
 ```
